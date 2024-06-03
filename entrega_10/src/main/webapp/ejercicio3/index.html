@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="expires" content="0">
+	<meta http-equiv="Cache-Control">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Calculadora de presupuestos</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700;900&display=swap">
+	<style>
+		body {
+			font-family: 'Poppins', sans-serif;
+			margin: 0;
+			padding: 20px;
+			background-color: #f4f4f9 ;
+		}
+
+		.contenedor {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #f4f4f9;
+		}
+		
+		h1 {
+			text-align: center;
+			color: #333333;
+			font-size: 35px;
+			margin-bottom: 20px;
+		}
+		
+		label {
+			display: block;
+			margin-bottom: 10px;
+			font-weight: 700;
+			color: #333333;
+		}
+		
+		input[type="number"], input[type="text"] {
+			width: calc(100% - 24px);
+			padding: 10px;
+			margin-bottom: 10px;
+			border: 1px solid #cccccc;
+			border-radius: 5px;
+			font-size: 20px;
+		}
+		
+		.categorias {
+			margin-bottom: 20px;
+		}
+		
+		.categoria {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 10px;
+		}
+		
+		.categoria input[type="text"] {
+			width: 60%;
+		}
+		
+		.categoria input[type="number"] {
+			width: 30%;
+		}
+		
+		button {
+			width: 100%;
+			padding: 10px;
+			background-color: #0a2ff1;
+			color: #ffffff;
+			border: none;
+			border-radius: 5px;
+			font-size: 20px;
+			cursor: pointer;
+		}
+		
+		button:hover {
+			background-color: #0a1fb1;
+		}
+		
+		.resultados {
+			margin-top: 20px;
+			padding: 10px;
+			background-color: #f0f0f0;
+			border-radius: 5px;
+		}
+		
+		.resultado {
+			margin-bottom: 10px;
+			font-weight: 700;
+			color: #333333;
+		}
+	</style>
+	</head>
+	<body>
+		<div class="contenedor">
+			<h1>Calculadora de presupuesto</h1>
+			<label for="ingresos">Monto de ingresos:</label>
+			<input type="number" id="ingresos" placeholder="Ingrese su monto de ingresos" />
+			<h2>Categorias</h2>
+			<div class="categoria">
+				<input type="text" value="Gastos" />
+				<input type="number" value="50"/>
+			</div>
+			<div class="categoria">
+				<input type="text" value="Ahorro" />
+				<input type="number" value="30"/>
+			</div>
+			<div class="categoria">
+				<input type="text" value="Inversion" />
+				<input type="number" value="20"/>
+			</div>
+			<button onclick="calcularPresupuesto()">Calcular</button>
+			<div class="resultados" id="resultados"></div>
+		</div>
+		
+		<script>
+			function calcularPresupuesto() {
+				const ingresos = parseFloat(document.getElementById('ingresos').value);
+				const categorias = document.querySelectorAll('.categoria');
+				const resultados = document.getElementById('resultados');
+				resultados.innerHTML = '';
+				
+				if (isNaN(ingresos) || ingresos <= 0){
+					resultados.innerHTML = '<p class="resultado">Error: Por favor, ingrese un monto valido de ingresos-</p>';
+					return;
+				}
+				
+				let porcentajeTotal = 0;
+				categorias.forEach(categoria => {
+					porcentajeTotal += parseFloat(categoria.querySelector('input[type="number"]').value);});
+					
+					if (porcentajeTotal!==100){
+						resultados.innerHTML = '<p class="resultado">Error: Los porcentajes deben sumar 100%.</p>';
+						return;
+					}
+					
+					categorias.forEach(categoria => {
+						const nombre = categoria.querySelector('input[type="text"]').value;
+						const porcentaje = parseFloat(categoria.querySelector('input[type="number"]').value);
+						const monto = (ingresos * porcentaje) / 100;
+						const elementoResultado = document.createElement('p');
+						elementoResultado.className = 'resultado';
+						elementoResultado.textContent = `${nombre}: $${monto.toFixed(2)}`;
+						resultados.appendChild(elementoResultado);
+					})
+			}
+		</script>
+	</body>
+</html>
+	
+	
+	
+	
+	
